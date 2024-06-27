@@ -1,10 +1,13 @@
 
+from flask import render_template, request
 from models import User, register_user
 from app import app
 
 @app.route('/')
-def hello_world():
-    return 'Prueba del hosting (usando Talisman)...'
+@app.route('/home')
+@app.route('/inicio')
+def home():
+    return render_template('home.html')
 
 @app.route('/decrypt')
 def decrypt():
@@ -14,14 +17,22 @@ def decrypt():
 def crypt():
     return 'Ruta de encriptado'
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return 'Aqui ira el login de la aplicacion'
+    if request.method == "POST":
+        print("post!!!!")
 
-@app.route('/signup', methods=['POST'])
+    return render_template('login.html')
+
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    register_user("pedro", "pedro123@gmail,com", "shesh")
-    return 'Aqui ira el login de la aplicacion'
+    #register_user("pedro", "pedro123@gmail,com", "shesh")
+    
+    if request.method == "POST":
+        print("POST SIGNUP!!!!")
+
+    return render_template('signup.html')
+
 
 @app.route('/test-create-user', methods=['GET'])
 def test_create_user():
