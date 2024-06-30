@@ -15,6 +15,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+mysqldb://neri6502:cryptocucumber
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_POOL_SIZE'] = 10 # conexiones a base de datos simultaneas
 app.config['SQLALCHEMY_POOL_TIMEOUT'] = 3600  # 1 hora maximo por conexion
+app.config['WTF_CSRF_ENABLED'] = True
 
 # instancia del cursor de la base de datos
 db = SQLAlchemy(app)
