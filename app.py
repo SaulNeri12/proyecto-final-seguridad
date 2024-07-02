@@ -30,7 +30,7 @@ app.config['WTF_CSRF_ENABLED'] = True
 app.config['SECRET_KEY'] = os.getenv("APP_SECRET_KEY")
 
 # configuracion del captcha
-app.config['RECAPTCHA_USE_SSL'] = False
+app.config['RECAPTCHA_USE_SSL'] = True
 app.config['RECAPTCHA_PUBLIC_KEY'] = os.getenv('RECAPTCHA_PUBLIC_KEY')
 app.config['RECAPTCHA_PRIVATE_KEY'] = os.getenv('RECAPTCHA_PRIVATE_KEY')
 app.config['RECAPTCHA_OPTIONS'] = {'theme': 'white'}

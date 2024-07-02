@@ -7,6 +7,15 @@
 </head>
 <body>
     <h1>Crear cuenta</h1>
+     {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <form method="POST" action="/signup">
         {{ form.csrf_token }}
         <p>
@@ -22,13 +31,11 @@
         {{ form.password }}
         </p>
         <p>
-        {{ form.confirm_password.label }}
-        {{ form.confirm_password }}
-        </p>
-        <p>
         {{ form.recaptcha }}
         </p>
-        <p><input type="submit" value="Crear cuenta"></p>
+        <p>
+        {{ form.submit }}
+        </p>
     </form>
 </body>
 </html>

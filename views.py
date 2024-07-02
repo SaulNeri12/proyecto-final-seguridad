@@ -1,15 +1,39 @@
 
-from flask import render_template, request
-from models import User, register_user
+from flask import render_template, request, flash, redirect
+from models import *
 from app import app
 
 from flask_wtf import FlaskForm, RecaptchaField
-from wtforms import StringField, EmailField, PasswordField
+from wtforms import StringField, EmailField, PasswordField, SubmitField
 from wtforms.validators import Email, Length, InputRequired
 
-print("[*] Flask WTF funcionando!!!")
+class LogInForm(FlaskForm):
+    username = StringField('Nombre de usuario', 
+        [
+            InputRequired(), 
+            Length(
+                min=8, 
+                max=32, 
+                message='El nombre de usuario debe tener al menos 8 caracteres y no pasar de 32 caracteres'
+            )
+        ]
+    )
+    password = PasswordField('Contrasena',
+        [
+            InputRequired(),
+            Length(
+                min=8,
+                max=32,
+                message='La contrasena debe contener al menos 8 caracteres y maximo de 32'
+            )
+        ]
+    )
+    recaptcha = RecaptchaField()
 
-class SignupForm(FlaskForm):
+    submit = SubmitField('Iniciar Sesion')
+
+
+class SignUpForm(FlaskForm):
     username = StringField('Nombre de usuario', 
         [
             InputRequired(), 
@@ -40,6 +64,7 @@ class SignupForm(FlaskForm):
             )
         ]
     )
+    '''
     confirm_password = PasswordField('Confirmar Contrasena',
         [
             InputRequired(),
@@ -50,8 +75,10 @@ class SignupForm(FlaskForm):
             ),
         ]    
     )
+    '''
     recaptcha = RecaptchaField()
 
+    submit = SubmitField('Crear Cuenta')
 
 
 @app.route('/')
@@ -70,19 +97,40 @@ def crypt():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == "POST":
-        print("post!!!!")
+    form = LogInForm()
 
-    return render_template('login.html')
+    if form.validate_on_submit():
+        try:
+            login_user(form.username.data, form.password.data)
+            return redirect('crypt')
+        except LogInError as e:
+            flash(e.message, "error")
+
+    return render_template('login.html', form=form)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     #register_user("pedro", "pedro123@gmail,com", "shesh")
 
-    form = SignupForm()
+    form = SignUpForm()
 
-    if request.method == "POST":
-        print("POST SIGNUP!!!!")
+    if form.validate_on_submit():
+        if user_exists(form.username.data, form.email.data):
+            flash("Ya existe un usuario con el correo o nombre de usuario dado", "error")
+        else:
+            # cargamos los datos del formulario...
+            username = form.username.data
+            email = form.username.data
+            password = form.password.data
+            # registramos el usuario en la base de datos
+            register_user(username, email, password)
+            return redirect('login')
+    else:
+        errors = {}
+        for field, errors_list in form.errors.items():
+            errors[field] = ', '.join(errors_list)
+            for error in errors_list:
+                print(f"Error en el campo '{field}': {error}")
 
     return render_template('signup.html', form=form)
 
@@ -91,5 +139,24 @@ def signup():
 def test_create_user():
     register_user("pedro", "pedro123@gmail,com", "shesh")
     return 'Se creo un usuario de prueba...'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
