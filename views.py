@@ -64,18 +64,7 @@ class SignUpForm(FlaskForm):
             )
         ]
     )
-    '''
-    confirm_password = PasswordField('Confirmar Contrasena',
-        [
-            InputRequired(),
-            Length(
-                min=8,
-                max=32,
-                message='La contrasena debe contener al menos 8 caracteres y maximo de 32'
-            ),
-        ]    
-    )
-    '''
+
     recaptcha = RecaptchaField()
 
     submit = SubmitField('Crear Cuenta')
@@ -87,14 +76,6 @@ class SignUpForm(FlaskForm):
 def home():
     return render_template('home.html')
 
-@app.route('/decrypt')
-def decrypt():
-    return 'Ruta de desencriptado'
-
-@app.route('/crypt')
-def crypt():
-    return 'Ruta de encriptado'
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LogInForm()
@@ -102,7 +83,7 @@ def login():
     if form.validate_on_submit():
         try:
             login_user(form.username.data, form.password.data)
-            return redirect('crypt')
+            return render_template('crypt.html')
         except LogInError as e:
             flash(e.message, "error")
 
@@ -110,7 +91,6 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    #register_user("pedro", "pedro123@gmail,com", "shesh")
 
     form = SignUpForm()
 
@@ -133,30 +113,6 @@ def signup():
                 print(f"Error en el campo '{field}': {error}")
 
     return render_template('signup.html', form=form)
-
-
-@app.route('/test-create-user', methods=['GET'])
-def test_create_user():
-    register_user("pedro", "pedro123@gmail,com", "shesh")
-    return 'Se creo un usuario de prueba...'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

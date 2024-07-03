@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto | Herramienta</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/core-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/components/enc-base64.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/pbkdf2.js"></script>
+</head>
+<body>
+    <h1 class="">Cifrado AES-128</h1>
+    <div class="container">
+        <section>
+            <h3>Texto:</h3>
+            <textarea id="plain-text" rows="20" cols="40" min="1"></textarea>
+        </section>
+        <section>
+            <label for="plain-text-key">LLave de cifrado: </label>
+            <input type="text" id="plain-text-key" name="plain-text-key" min="16" max="16" value="llave"/>
+        </section>
+        <section>
+            <fieldset id="crypto-modes-field">
+                <legend>Modo de operacion:</legend>
+                <div>
+                    <input type="radio" id="encrypt-mode" name="mode" value="Encriptar" checked/>
+                    <label for="encrypt-mode">Encriptar</label>
+                </div>
+                <div>
+                    <input type="radio" id="decrypt-mode" name="mode" value="Desencriptar"/>
+                    <label for="decrypt-mode">Desencriptar</label>
+                </div>
+            </fieldset>
+        </section>
+        <section>
+            <h3>Salida:</h3>
+            <textarea id="output-text" rows="20" cols="40"></textarea>
+        </section>
+        <section>
+            <button id="execute-operation">Encriptar</button>
+        </section>
+    </div>
+    <script src="{{ url_for('static', filename='js/crypto-tool.js') }}"></script>
+</body>
+</html>

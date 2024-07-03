@@ -16,7 +16,6 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 # se carga el archivo de variables de la aplicacion...
 load_dotenv(os.path.join(BASEDIR, '.env'))
 
-
 app = Flask(__name__)
 
 # configura la URL de la base de datos (en este caso MySQL)
@@ -49,7 +48,8 @@ csp = {
     'script-src': [
         '\'self\'',
         'https://www.google.com',
-        'https://www.gstatic.com'
+        'https://www.gstatic.com',
+        'https://cdnjs.cloudflare.com'
     ],
     'frame-src': [
         '\'self\'',
